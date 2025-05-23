@@ -27,6 +27,14 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Cache apt packages
+      uses: actions/cache@v2
+      with:
+        path: /var/cache/apt
+        key: ${{ runner.os }}-apt-${{ hashFiles('**/apt.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-apt-
+
     - name: Install Dependencies
       run: |
         sudo apt update
