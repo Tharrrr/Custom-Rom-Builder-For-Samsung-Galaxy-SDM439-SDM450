@@ -10,6 +10,10 @@ echo ""
 
 mv ./temp/*.xz ./temp/system.img.xz
 xz -d ./temp/system.img.xz
+if [ $? -ne 0 ]; then
+  echo "Error: Failed to extract system image."
+  exit 1
+fi
 rm -rf ./temp/*.xz
 mv ./temp/*.img ./temp/system.img
 
@@ -38,6 +42,10 @@ is_raw() {
 # Function to convert an image to raw format using simg2img
 convert_to_raw() {
   ./bin/simg2img "./temp/system.img" "./temp/system.raw"
+  if [ $? -ne 0 ]; then
+    echo "Error: Failed to convert system image to raw format."
+    exit 1
+  fi
 }
 
 # Check if the provided image is already in raw format
@@ -72,3 +80,7 @@ fi
 	echo "####################################"
     echo ""
 ./size
+if [ $? -ne 0 ]; then
+  echo "Error: Failed to resize system image."
+  exit 1
+fi
